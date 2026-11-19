@@ -1,0 +1,9 @@
+services:
+  shop:
+    image: nginx:alpine
+    container_name: wraith-shop
+    volumes:
+      - ./.stress/shop:/usr/share/nginx/html:ro
+  backend:
+    environment:
+      JWT_SECRET: stress-test-secret

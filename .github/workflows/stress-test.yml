@@ -1,0 +1,25 @@
+name: Stress test
+
+on:
+  push:
+    branches: [stress-test]
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - name: Make the test shop
+        run: bash .stress/make_shop.sh 0
+      - name: Start Wraith from the published images
+        run: |
+          docker compose -f docker-compose.yml -f .stress/compose.override.yml pull
+          docker compose -f docker-compose.yml -f .stress/compose.override.yml up -d --no-build
+          docker image inspect ghcr.io/cozmocode474/wraith-backend:latest --format 'backend image {{.Id}} {{.Created}}'
+          docker image inspect ghcr.io/cozmocode474/wraith-frontend:latest --format 'frontend image {{.Id}} {{.Created}}'
+      - name: Stress test
+        run: bash .stress/run.sh
+      - name: Logs
+        if: always()
+        run: docker compose -f docker-compose.yml -f .stress/compose.override.yml logs --no-color --tail 200
