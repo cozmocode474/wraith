@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `docker-compose.yml` can build both images from source with `docker compose up --build`.
 - Settings links to this repository's changelog and GitHub page.
 - Removed the star-history widget and upstream screenshots from the README.
+- The Docker workflow uses the Node 24 versions of its actions: checkout v7, paths-filter v4, setup-buildx v4, login v4, metadata v6, build-push v7.
 
 The entries below are PriceGhost's history before the fork.
 
